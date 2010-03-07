@@ -1,0 +1,114 @@
+package tracker;
+
+import java.io.PrintStream;
+import java.util.ArrayList;
+
+import ucb.proj2.Physics;
+import util.QuadTree;
+import util.QuadTree.QuadPoint;
+
+
+/** 
+ * The TrackingSystem keeps track of the state of all needed variables
+ * and appropriately updates them according to the users specifications.
+ * @author Shariq Mobin cs61b-eb
+ *
+ */
+	class TrackingSystem {
+		
+		private double radius;
+		private QuadTree<QuadPoint> tree;
+		private ArrayList<double[]> locs;
+		private final double RECTSIZE_FACTOR = 2.0;
+		
+		TrackingSystem() {
+			radius = Double.POSITIVE_INFINITY;
+			tree = new QuadTree(0,0,0,0,1.0);
+			locs = new ArrayList<double[]>();
+		}
+		
+		void addPoint(int id, double llx, double lly, double urx, double ury) {
+			
+		}
+		
+		void createBoundary(double llx, double lly, double urx, double ury) throws ProblemException {
+			if (llx > tree.llx() || lly > tree.lly() || urx < tree.urx() || ury < tree.ury())
+				throw Main.ERR("Attempted to add a point outside of the boundaries ");
+			tree = new QuadTree(llx, lly, urx, ury, 1.0); // Change delta
+		}
+		void remove(int id) {
+			
+		}
+		void setRadius(double rad) throws ProblemException {
+			if (rad > radius)
+				throw Main.ERR("May not increase radius");
+			else if (rad < 0.0)
+				throw Main.ERR("Cannot have a negative radius");
+			radius = rad;
+			tree = new QuadTree(0,0,0,0,radius*RECTSIZE_FACTOR);		
+		}
+		void CloserThan(double d) {
+			
+		}
+	/*	Set2DIterator iterator() {
+			return tree.iterator();
+		}
+	*/ 
+		int size() {
+			return tree.size();
+		}
+		double radius() {
+			return radius;
+		}
+		boolean contains(QuadPoint p) {
+			return tree.contains(p);
+		}
+		double x(int id) {
+			return tree.x(id);
+		}
+		double y(int id) {
+			return tree.y(id);
+		}
+	    double llx () {
+	        return tree.llx();
+	    }
+
+	    double lly () {
+	        return tree.lly();
+	    }
+
+	    double urx ()  {
+	        return tree.urx();
+	    }
+
+	    double ury ()  {
+	        return tree.ury();
+	    }
+	    double maxVelocity() {
+	    	double max = 0.0, vel;
+	    	for (double[] elem : locs) {
+	    		vel = Physics.len(elem, 0);
+	    		if (vel > max)
+	    			max = vel;
+	    	}
+	    	return max;
+	    }
+}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
